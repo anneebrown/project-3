@@ -19,26 +19,27 @@ selectFields.addEventListener('change', (event) => {
       }
   });
 
-//T-shirt section
+/*
+T-shirt section
+*/
 
 //Hide the “Select Theme” `option` element in the “Design” menu.
 let selectThemeOption = document.getElementById('design');
 selectThemeOption.firstElementChild.style.display = 'none';
 
-//Update the “Color” field to read “Please select a T-shirt theme” until a theme is selected
+//Update the “Color” field to read “Please select a T-shirt theme” until a theme is selected and hides the drop down menu
 const colorOptions = document.getElementById('color');
 colorOptions.style.display = 'none';
 let colorLabel = document.getElementById('colors-js-puns').firstElementChild;
 colorLabel.textContent = 'Please select a T-shirt theme';
 
 //add an event listener to listen for changes, use an if clause to determine what to display, change the label to say "Color:"
-// try event.target.value too in the if clause ?
-//
 selectThemeOption.addEventListener('change', (event) => {
   //gets the index value of the selected field to be able to target it with the if clauses, idea from here: https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/selectedIndex
   let selectedOption = selectThemeOption.selectedIndex;
-  console.log(selectedOption);
+  //console.log(selectedOption);
   colorOptions.style.display = 'block';
+//if the first option is selected, the label text changes and only valid options are displayed
   if (selectedOption == 1){
      colorLabel.textContent = 'Color: ';
      colorOptions.innerHTML = `
@@ -47,7 +48,7 @@ selectThemeOption.addEventListener('change', (event) => {
      <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
      <option value="gold">Gold (JS Puns shirt only)</option> 
    </select>`
-   
+   //if the second option is selected, the label text changes and only valid options are displayed
   } else if (selectedOption == 2){
    colorLabel.textContent = 'Color: ';
    colorOptions.innerHTML = `
@@ -61,5 +62,94 @@ selectThemeOption.addEventListener('change', (event) => {
 });
 
 
-//activity section
+/*
+Activity section
+*/
 
+//creates a new footer element to store the activity cost and appends it to the DOM
+let totalCostElement = document.createElement('footer');
+let  activitiesSection = document.querySelector('.activities');
+activitiesSection.appendChild(totalCostElement);
+
+//creates a variable to store the cost
+let totalActivityCost = 0;
+
+//adds an event listener to listen for changes to the checkboxes
+activitiesSection.addEventListener('change', (event) => {
+  //gets the value of the selected option
+  let selectedOptionTwo = event.target;
+  //console.log(selectedOptionTwo);
+  
+  //gets the price of the selected activities
+  let dataCost = event.target.getAttribute("data-cost");
+  let dataCostNumber = parseInt(dataCost);
+  //console.log(dataCostNumber);
+  //console.log(typeof dataCostNumber);
+
+  //if a box is selected, the cost gets added to the total, which is then added to the DOM
+  //if a box is deselected, the cost is substracted
+  if (event.target.checked) {
+   totalActivityCost += dataCostNumber;
+   //console.log(totalActivityCost);
+   totalCostElement.textContent = `Total Cost: $${totalActivityCost}`;
+  } else {
+  totalActivityCost -= dataCostNumber;
+  //console.log(totalActivityCost);
+  totalCostElement.textContent = `Total Cost: $${totalActivityCost}`;
+  }
+  
+  //finds the date and time of the selected element
+  let selectedDateandTime = event.target.getAttribute("data-day-and-time");
+  //console.log(selectedDateandTime);
+ 
+  //got the elements.length part here: http://www.randomsnippets.com/2008/05/15/how-to-loop-through-checkboxes-or-radio-button-groups-via-javascript/
+  //for (let i = 0; i < activitiesSection.elements.length; i+=1 ){
+   // let input = activitiesSection;
+   // console.log(input[i]);
+    
+   
+
+ // } 
+});
+
+
+/*
+Payment Section 
+*/
+
+//hides the select payment method option
+let selectPayment = document.getElementById('payment');
+selectPayment.firstElementChild.style.display = 'none';
+ 
+//creates a variable for the credit card div which is visible by default
+let creditCardDiv = document.getElementById('credit-card');
+
+//creates a variable for the paypal div and hides it initially
+let payPalDiv = document.getElementById('paypal');
+payPalDiv.style.display = 'none';
+
+//creates a variable for the bitcoin div and hides it initially
+let bitCoinDiv = document.getElementById('bitcoin');
+bitCoinDiv.style.display = 'none';
+
+//adds an event listener to the payment method select menu. Hides the options that are not selected
+selectPayment.addEventListener('change', (event) => {
+  if (event.target.value === "credit card"){
+    creditCardDiv.style.display = 'block';
+    payPalDiv.style.display = 'none';
+    bitCoinDiv.style.display = 'none';
+  } else if (event.target.value === "paypal") {
+    creditCardDiv.style.display = 'none';
+    payPalDiv.style.display = 'block';
+    bitCoinDiv.style.display = 'none';
+  } else if (event.target.value === "bitcoin") {
+    creditCardDiv.style.display = 'none';
+    payPalDiv.style.display = 'none';
+    bitCoinDiv.style.display = 'block';
+  }
+});
+
+
+/*
+Validation Section 
+*/
