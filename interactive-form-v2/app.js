@@ -87,7 +87,7 @@ activitiesSection.addEventListener('change', (event) => {
   //console.log(typeof dataCostNumber);
 
   //if a box is selected, the cost gets added to the total, which is then added to the DOM
-  //if a box is deselected, the cost is substracted
+  //if a box is deselected, the cost is subtracted
   if (event.target.checked) {
    totalActivityCost += dataCostNumber;
    //console.log(totalActivityCost);
@@ -99,17 +99,23 @@ activitiesSection.addEventListener('change', (event) => {
   }
   
   //finds the date and time of the selected element
-  let selectedDateandTime = event.target.getAttribute("data-day-and-time");
-  //console.log(selectedDateandTime);
+  let selectedDateAndTime = event.target.getAttribute("data-day-and-time");
+  //console.log(selectedDateAndTime);
  
   //got the elements.length part here: http://www.randomsnippets.com/2008/05/15/how-to-loop-through-checkboxes-or-radio-button-groups-via-javascript/
-  //for (let i = 0; i < activitiesSection.elements.length; i+=1 ){
-   // let input = activitiesSection;
-   // console.log(input[i]);
-    
-   
-
- // } 
+  for (let i = 0; i < activitiesSection.elements.length; i+=1 ){
+    //variable to store all options to loop over
+    let inputOption = activitiesSection.elements;
+    if (selectedDateAndTime == inputOption[i].getAttribute("data-day-and-time") && selectedOptionTwo !== inputOption[i] && event.target.checked){
+      
+      inputOption[i].disabled = true;
+     // console.log(inputOption[i]);
+      
+    } else {
+     inputOption[i].disabled = false;
+   //console.log(inputOption[i]);
+    }
+  }
 });
 
 
@@ -153,3 +159,95 @@ selectPayment.addEventListener('change', (event) => {
 /*
 Validation Section 
 */
+
+//I'm using the validation I learned in the coursework as a basis
+
+//username section
+//gets the username and label elements, sets the color to red as a validation warning
+
+let usernameInput = document.getElementById("name");
+
+//creates a regex to test a name, allows for middle names or hyphenated last names
+function isValidUsername(username) {
+  return /^[A-Za-z]* ?[A-Za-z]*[ -]?[A-Za-z]*?$/.test(username);
+}
+
+function showOrHideTipUsername(show, element) {
+  // show explainer when show is true, hide when false
+  if (show) {
+    usernameInput.style.borderColor = "red";
+    usernameInput.style.color = "red";
+    let usernameLabel = usernameInput.previousElementSibling;
+    usernameLabel.textContent = "Name: Please enter upper and lower case letters, hyphens and spaces only";
+  } else {
+    usernameInput.style.borderColor = "black";
+    usernameInput.style.color = "black"
+    let usernameLabel = usernameInput.previousElementSibling;
+    usernameLabel.textContent = "Name: ";
+  }
+}
+
+function createListenerUsername(validator) {
+  return e => {
+    const text = e.target.value;
+    const valid = validator(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTipUsername(showTip, tooltip);
+  };
+}
+
+let usernameListener = usernameInput.addEventListener("input", createListenerUsername(isValidUsername));
+
+
+//email section 
+
+let emailInput = document.getElementById("mail");
+
+//creates a regex to test an email
+function isValidEmail(email) {
+  return /[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+}
+
+function showOrHideTipEmail(show, element) {
+  // show explainer when show is true, hide when false
+  if (show) {
+    emailInput.style.borderColor = "red";
+    emailInput.style.color = "red";
+    let emailLabel = emailInput.previousElementSibling;
+    emailLabel.textContent = "Email: Please enter a valid email address";
+  } else {
+    emailInput.style.borderColor = "black";
+    emailInput.style.color = "black"
+    let emailLabel = emailInput.previousElementSibling;
+    emailLabel.textContent = "Email: ";
+  }
+}
+
+function createListenerEmail(validator) {
+  return e => {
+    const text = e.target.value;
+    const valid = validator(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTipEmail(showTip, tooltip);
+  };
+}
+
+let emailListener = emailInput.addEventListener("input", createListenerEmail(isValidEmail));
+
+
+
+//activities section 
+
+//got the basic idea of how to check if any box is checked here: https://stackoverflow.com/questions/9119407/how-do-i-check-if-any-checkboxes-at-all-on-the-page-are-checked
+
+function anyCheckbox() {
+    let inputElements = document.getElementsByTagName("input");
+    for (let i = 0; i < inputElements.length; i++)
+        if (inputElements[i].type == "checkbox")
+            if (inputElements[i].checked)
+                return true;
+    return false;
+}
+
