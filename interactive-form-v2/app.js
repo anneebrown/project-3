@@ -106,8 +106,8 @@ activitiesSection.addEventListener('change', (event) => {
   for (let i = 0; i < activitiesSection.elements.length; i+=1 ){
     //variable to store all options to loop over
     let inputOption = activitiesSection.elements;
-    if (selectedDateAndTime == inputOption[i].getAttribute("data-day-and-time") && selectedOptionTwo !== inputOption[i] && event.target.checked){
-      
+    if (selectedDateAndTime == inputOption[i].getAttribute("data-day-and-time")){
+      if (selectedOptionTwo !== inputOption[i] && event.target.checked){
       inputOption[i].disabled = true;
      // console.log(inputOption[i]);
       
@@ -115,6 +115,7 @@ activitiesSection.addEventListener('change', (event) => {
      inputOption[i].disabled = false;
    //console.log(inputOption[i]);
     }
+  }
   }
 });
 
@@ -264,7 +265,7 @@ function anyCheckbox() {
 
 //credit card section 
 
-if (pickedPayment = 'credit card'){
+if (pickedPayment == 'credit card'){
   function isValidCCNumber(ccnumber) {
     return /^\d{13-16}$/.test(ccnumber);
   }
