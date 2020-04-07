@@ -138,20 +138,26 @@ payPalDiv.style.display = 'none';
 let bitCoinDiv = document.getElementById('bitcoin');
 bitCoinDiv.style.display = 'none';
 
+//variable to store which payment method was selected globally, for validation purposes later
+let pickedPayment = '';
+
 //adds an event listener to the payment method select menu. Hides the options that are not selected
 selectPayment.addEventListener('change', (event) => {
   if (event.target.value === "credit card"){
     creditCardDiv.style.display = 'block';
     payPalDiv.style.display = 'none';
     bitCoinDiv.style.display = 'none';
+    pickedPayment = 'credit card';
   } else if (event.target.value === "paypal") {
     creditCardDiv.style.display = 'none';
     payPalDiv.style.display = 'block';
     bitCoinDiv.style.display = 'none';
+    pickedPayment = 'paypal';
   } else if (event.target.value === "bitcoin") {
     creditCardDiv.style.display = 'none';
     payPalDiv.style.display = 'none';
     bitCoinDiv.style.display = 'block';
+    pickedPayment = 'bitcoin';
   }
 });
 
@@ -237,17 +243,38 @@ function createListenerEmail(validator) {
 let emailListener = emailInput.addEventListener("input", createListenerEmail(isValidEmail));
 
 
-
 //activities section 
+//remove checked attribute from first item in activities list
 
 //got the basic idea of how to check if any box is checked here: https://stackoverflow.com/questions/9119407/how-do-i-check-if-any-checkboxes-at-all-on-the-page-are-checked
 
 function anyCheckbox() {
     let inputElements = document.getElementsByTagName("input");
+    //console.log(inputElements);
     for (let i = 0; i < inputElements.length; i++)
         if (inputElements[i].type == "checkbox")
             if (inputElements[i].checked)
                 return true;
     return false;
 }
+
+//console.log(anyCheckbox());
+
+
+
+//credit card section 
+
+if (pickedPayment = 'credit card'){
+  function isValidCCNumber(ccnumber) {
+    return /^\d{13-16}$/.test(ccnumber);
+  }
+  function isValidCVV(cvv) {
+    return /^\d{3}$/.test(cvv);
+  }
+  function isValidZip(zip) {
+    return /^\d{5}$/.test(zip);
+  }
+
+}
+let creditCardInput = document.getElementById("credit-cards");
 
