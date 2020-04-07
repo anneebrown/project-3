@@ -170,7 +170,7 @@ Validation Section
 //I'm using the validation I learned in the coursework as a basis
 
 //username section
-//gets the username and label elements, sets the color to red as a validation warning
+//gets the username and label elements, sets the border color to red with a validation warning
 
 let usernameInput = document.getElementById("name");
 
@@ -178,8 +178,10 @@ let usernameInput = document.getElementById("name");
 function isValidUsername(username) {
   return /^[A-Za-z]* ?[A-Za-z]*[ -]?[A-Za-z]*?$/.test(username);
 }
+//console.log(isValidUsername(username));
 
-function showOrHideTipUsername(show, element) {
+
+function showOrHideTipUsername(show) {
   // show explainer when show is true, hide when false
   if (show) {
     usernameInput.style.borderColor = "red";
@@ -199,12 +201,12 @@ function createListenerUsername(validator) {
     const text = e.target.value;
     const valid = validator(text);
     const showTip = text !== "" && !valid;
-    const tooltip = e.target.nextElementSibling;
-    showOrHideTipUsername(showTip, tooltip);
+    showOrHideTipUsername(showTip);
   };
 }
 
 let usernameListener = usernameInput.addEventListener("input", createListenerUsername(isValidUsername));
+console.log(usernameListener);
 
 
 //email section 
@@ -216,7 +218,7 @@ function isValidEmail(email) {
   return /[^@]+@[^@.]+\.[a-z]+$/i.test(email);
 }
 
-function showOrHideTipEmail(show, element) {
+function showOrHideTipEmail(show) {
   // show explainer when show is true, hide when false
   if (show) {
     emailInput.style.borderColor = "red";
@@ -236,8 +238,7 @@ function createListenerEmail(validator) {
     const text = e.target.value;
     const valid = validator(text);
     const showTip = text !== "" && !valid;
-    const tooltip = e.target.nextElementSibling;
-    showOrHideTipEmail(showTip, tooltip);
+    showOrHideTipEmail(showTip);
   };
 }
 
@@ -265,17 +266,47 @@ function anyCheckbox() {
 
 //credit card section 
 
-if (pickedPayment == 'credit card'){
-  function isValidCCNumber(ccnumber) {
-    return /^\d{13-16}$/.test(ccnumber);
-  }
-  function isValidCVV(cvv) {
-    return /^\d{3}$/.test(cvv);
-  }
-  function isValidZip(zip) {
-    return /^\d{5}$/.test(zip);
-  }
+// if (pickedPayment == 'credit card'){
+//   function isValidCCNumber(ccnumber) {
+//     return /^\d{13-16}$/.test(ccnumber);
+//   }
+//   function isValidCVV(cvv) {
+//     return /^\d{3}$/.test(cvv);
+//   }
+//   function isValidZip(zip) {
+//     return /^\d{5}$/.test(zip);
+//   }
 
-}
-let creditCardInput = document.getElementById("credit-cards");
+// }
+// let creditCardInput = document.getElementById("credit-cards");
+
+
+//submit section
+//got the idea of how to get target the submit button here: https://stackoverflow.com/questions/5897122/accessing-elements-by-type-in-javascript
+let submitButton = document.querySelector('button');
+console.log(submitButton);
+
+submitButton.addEventListener("click", (e) => {
+  //if (isValidUsername(usernameInput.value) = 'false'){
+  //e.preventDefault();
+  //add warning message to name field
+ // };
+  //if isValidEmail = false
+  //prevent default
+  //add warning message to email field
+  if (!anyCheckbox()){
+    let activityWarning = document.createElement('span');
+    activityWarning.textContent = 'Please choose at least one activity';
+    activityWarning.style.color = 'red';
+    activitiesSection.appendChild(activityWarning);
+    e.preventDefault();
+  };
+  //prevent default
+  //add a message to activity section
+  //if cc is selected and validccnumber is false
+  //prevent default
+  //add a message to cc section
+  
+  //
+});
 
