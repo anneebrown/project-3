@@ -273,14 +273,13 @@ function isValidCCNumber(numberonCC) {
 
 let cvvNumber = document.getElementById('cvv');
 function isValidCVVNumber(numberCVV) {     
- return /^[0-9]{3}$/.test(numberCVV)
+ return /^[0-9]{3}$/.test(numberCVV);
  }
-//   function isValidCVV(cvv) {
-//     return /^\d{3}$/.test(cvv);
-//   }
-//   function isValidZip(zip) {
-//     return /^\d{5}$/.test(zip);
-//   }
+
+let zipCode = document.getElementById('zip');
+function isValidZip(zipNumber){
+ return /^[0-9]{5}$/.test(zipNumber);
+};
 
 // }
 // let creditCardInput = document.getElementById("credit-cards");
@@ -332,6 +331,17 @@ submitButton.addEventListener("click", (e) => {
       }
       e.preventDefault();
     } 
+  };
+  if (pickedPayment == 'credit card'){
+    let zipValue = zipCode.value;
+    if (!isValidZip(zipValue)){
+      zipCode.style.borderColor = 'red';
+      zipCode.previousElementSibling.textContent = 'Zip Code: This number can have 5 digits only.'
+      e.preventDefault();
+    }
+  if (pickedPayment == ''){
+    e.preventDefault();
+  };
   };
   //if cc is selected and validcvvnumber is false
   //prevent default
