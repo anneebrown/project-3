@@ -291,6 +291,10 @@ let submitButton = document.querySelector('button');
 console.log(submitButton);
 
 submitButton.addEventListener("click", (e) => {
+  let usernameValue = usernameInput.value;
+  if (!isValidUsername(usernameValue)){
+    event.preventDefault();
+  }
   //if (isValidUsername(usernameInput.value) = 'false'){
   //e.preventDefault();
   //add warning message to name field
@@ -339,16 +343,6 @@ submitButton.addEventListener("click", (e) => {
       zipCode.previousElementSibling.textContent = 'Zip Code: This number can have 5 digits only.'
       e.preventDefault();
     }
-  if (pickedPayment == ''){
-    e.preventDefault();
   };
-  };
-  //if cc is selected and validcvvnumber is false
-  //prevent default
-  //add a message to cvv section
-  //if zip is selected and validzip is false
-  //prevent default
-  //add a message to zip
-  //
 });
 
