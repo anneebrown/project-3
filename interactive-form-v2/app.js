@@ -167,7 +167,7 @@ selectPayment.addEventListener('change', (event) => {
 Validation Section 
 */
 
-//I'm using the validation I learned in the coursework as a basis
+//I'm using the validation I learned in the coursework as a basis to validate the username and email in real time, while they are being entered by the user
 
 //username section
 //gets the username and label elements, sets the border color to red with a validation warning
@@ -182,7 +182,6 @@ function isValidUsername(username) {
 
 
 function showOrHideTipUsername(show) {
-  // show explainer when show is true, hide when false
   if (show) {
     usernameInput.style.borderColor = "red";
     usernameInput.style.color = "red";
@@ -219,7 +218,6 @@ function isValidEmail(email) {
 }
 
 function showOrHideTipEmail(show) {
-  // show explainer when show is true, hide when false
   if (show) {
     emailInput.style.borderColor = "red";
     emailInput.style.color = "red";
@@ -262,28 +260,25 @@ function anyCheckbox() {
 
 //console.log(anyCheckbox());
 
-
-
 //credit card section 
 
+//CC number validator
 let ccNumber = document.querySelector('#cc-num');
 function isValidCCNumber(numberonCC) {     
   return /^[0-9]{13,16}$/.test(numberonCC);
  }
 
+//cvv validator
 let cvvNumber = document.getElementById('cvv');
 function isValidCVVNumber(numberCVV) {     
  return /^[0-9]{3}$/.test(numberCVV);
  }
 
+ //zip validator
 let zipCode = document.getElementById('zip');
 function isValidZip(zipNumber){
  return /^[0-9]{5}$/.test(zipNumber);
 };
-
-// }
-// let creditCardInput = document.getElementById("credit-cards");
-
 
 //submit section
 //got the idea of how to get target the submit button here: https://stackoverflow.com/questions/5897122/accessing-elements-by-type-in-javascript
@@ -291,17 +286,16 @@ let submitButton = document.querySelector('button');
 console.log(submitButton);
 
 submitButton.addEventListener("click", (e) => {
+  //checks if a valid username was entered, the error message is displayed live while entering, code for that is above, prevents default if false
   let usernameValue = usernameInput.value;
   if (!isValidUsername(usernameValue)){
     event.preventDefault();
   }
-  //if (isValidUsername(usernameInput.value) = 'false'){
-  //e.preventDefault();
-  //add warning message to name field
- // };
-  //if isValidEmail = false
-  //prevent default
-  //add warning message to email field
+  //checks if a valid email was entered, the error message is displayed live while entering, code for that is above, prevents default if false
+ let emailValue = emailInput.value;
+ if (!isValidEmail(emailValue)) {
+  e.preventDefault();
+ };
   //check if any checkbox has been checked, if no box was checked, prevents default, adds a message
   if (!anyCheckbox()){
     let activityWarning = document.createElement('span');
@@ -310,11 +304,11 @@ submitButton.addEventListener("click", (e) => {
     activitiesSection.appendChild(activityWarning);
     e.preventDefault();
   };
+  //if selected payment was the credit card, checks the entered number, provides an error if false
   if (pickedPayment == 'credit card') {
     //console.log('hi');
     let ccValue = ccNumber.value;
     if (!isValidCCNumber(ccValue)){
-    
     ccNumber.style.borderColor = 'red';
     ccNumber.previousElementSibling.textContent = 'Card Number: Please enter a valid credit card number, 13 to 16 digits long.'
      e.preventDefault();
@@ -336,6 +330,7 @@ submitButton.addEventListener("click", (e) => {
       e.preventDefault();
     } 
   };
+  //if the picked payment method is the credit card, the zip is checked, provides an error if false
   if (pickedPayment == 'credit card'){
     let zipValue = zipCode.value;
     if (!isValidZip(zipValue)){
