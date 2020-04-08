@@ -291,10 +291,23 @@ submitButton.addEventListener("click", (e) => {
   if (!isValidUsername(usernameValue)){
     event.preventDefault();
   }
+  //if the length of the name is smaller than 1, a warning appears
+  if (usernameValue.length < 1){
+    usernameInput.previousElementSibling.textContent = 'A name is required';
+    usernameInput.style.borderColor = 'red';
+    e.preventDefault();
+  }
   //checks if a valid email was entered, the error message is displayed live while entering, code for that is above, prevents default if false
  let emailValue = emailInput.value;
  if (!isValidEmail(emailValue)) {
   e.preventDefault();
+ };
+ //if the length of the email is smaller than 1, a warning appears
+ if (emailValue.length < 1){
+  emailInput.previousElementSibling.textContent = 'An email address is required';
+  emailInput.style.borderColor = 'red';
+  e.preventDefault();
+
  };
   //check if any checkbox has been checked, if no box was checked, prevents default, adds a message
   if (!anyCheckbox()){
