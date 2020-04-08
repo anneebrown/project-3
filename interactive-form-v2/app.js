@@ -266,10 +266,15 @@ function anyCheckbox() {
 
 //credit card section 
 
-// if (pickedPayment == 'credit card'){
-//   function isValidCCNumber(ccnumber) {
-//     return /^\d{13-16}$/.test(ccnumber);
-//   }
+let ccNumber = document.querySelector('#cc-num');
+function isValidCCNumber(numberonCC) {     
+  return /^[0-9]{13,16}$/.test(numberonCC);
+ }
+
+let cvvNumber = document.getElementById('cvv');
+function isValidCVVNumber(numberCVV) {     
+ return /^[0-9]{3}$/.test(numberCVV)
+ }
 //   function isValidCVV(cvv) {
 //     return /^\d{3}$/.test(cvv);
 //   }
@@ -294,6 +299,7 @@ submitButton.addEventListener("click", (e) => {
   //if isValidEmail = false
   //prevent default
   //add warning message to email field
+  //check if any checkbox has been checked, if no box was checked, prevents default, adds a message
   if (!anyCheckbox()){
     let activityWarning = document.createElement('span');
     activityWarning.textContent = 'Please choose at least one activity';
@@ -301,12 +307,38 @@ submitButton.addEventListener("click", (e) => {
     activitiesSection.appendChild(activityWarning);
     e.preventDefault();
   };
+  if (pickedPayment == 'credit card') {
+    //console.log('hi');
+    let ccValue = ccNumber.value;
+    if (!isValidCCNumber(ccValue)){
+    
+    ccNumber.style.borderColor = 'red';
+    ccNumber.previousElementSibling.textContent = 'Card Number: Please enter a valid credit card number, 13 to 16 digits long.'
+     e.preventDefault();
+    }
+  };
+  //if the picked payment method is the credit card, the CVV is checked, depending on the error, the message changes
+  if (pickedPayment == 'credit card') {
+    //console.log('sup');
+    let cvvValue = cvvNumber.value;
+    if (!isValidCVVNumber(cvvValue)){
+      cvvNumber.style.borderColor = 'red';
+      if (cvvValue.length > 3){
+      cvvNumber.previousElementSibling.textContent = 'CVV: This number can only have 3 digits.'
+      e.preventDefault();
+      } else if (cvvValue.length < 3){
+       cvvNumber.previousElementSibling.textContent = 'CVV: This number has to have 3 digits.'
+       e.preventDefault();
+      }
+      e.preventDefault();
+    } 
+  };
+  //if cc is selected and validcvvnumber is false
   //prevent default
-  //add a message to activity section
-  //if cc is selected and validccnumber is false
+  //add a message to cvv section
+  //if zip is selected and validzip is false
   //prevent default
-  //add a message to cc section
-  
+  //add a message to zip
   //
 });
 
