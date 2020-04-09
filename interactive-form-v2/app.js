@@ -126,6 +126,8 @@ Payment Section
 
 //hides the select payment method option
 let selectPayment = document.getElementById('payment');
+//added this line for re-review so the user can see the credit card option is pre-selected, also changed line 145 and 146 for this. 
+selectPayment.firstElementChild.textContent = 'Credit Card';
 selectPayment.firstElementChild.style.display = 'none';
  
 //creates a variable for the credit card div which is visible by default
@@ -140,7 +142,8 @@ let bitCoinDiv = document.getElementById('bitcoin');
 bitCoinDiv.style.display = 'none';
 
 //variable to store which payment method was selected globally, for validation purposes later
-let pickedPayment = '';
+//set it to credit card while updating my code for re-review
+let pickedPayment = 'credit card';
 
 //adds an event listener to the payment method select menu. Hides the options that are not selected
 selectPayment.addEventListener('change', (event) => {
